@@ -1,8 +1,10 @@
 const express = require("express");
 const app = express();
-const { getPosts } = require("../controller/post")
+const { getPosts, createPost } = require("../controller/post")
 const router = express.Router();
+const { createPostValidator } = require("../validators")
 
 router.get("/",getPosts);
+router.post("/post",createPostValidator, createPost);
 
 module.exports = router;

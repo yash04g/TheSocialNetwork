@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+const bodyParser = require("body-parser")
+const expressValidator = require("express-validator");
 // Connecting Database
 const mongoose = require('mongoose');
 // load env variables
@@ -25,6 +27,8 @@ const postRoutes = require("./routes/post")
 
 // Middlewares
 app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(expressValidator());
 app.use("/", postRoutes);
 
 const PORT = process.env.PORT || 8080
