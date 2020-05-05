@@ -1,5 +1,6 @@
 const User = require("../model/user")
 const jwt = require("jsonwebtoken")
+const expressJwt = require("express-jwt")
 require("dotenv").config();
 
 exports.signup = async (req,res)=>{
@@ -49,3 +50,17 @@ exports.signout = (req,res)=>{
     })
 }
 
+exports.requireSignin = expressJwt({
+    // If token is valid, express JWT appends the verified users id in an auth key to the request
+    secret : process.env.JWT_SECRET,
+    userProperty : "auth" // With this we can access auth.id to check the currently signed in user's id
+})
+
+exports.hasAuthorization = (req,res,next)=>{
+    const authorized = req.profile && req.auth && req.profile._id == req.auth._id
+    if(!authorized){
+        return res.status(403).json({
+            error : "User is not authorized! Please sign in!"
+        })
+    }
+}
