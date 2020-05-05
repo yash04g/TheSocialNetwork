@@ -1,5 +1,4 @@
 const express = require("express");
-const app = express();
 const { getPosts, createPost } = require("../controller/post")
 const router = express.Router();
 const { createPostValidator } = require("../validators")
