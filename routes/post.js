@@ -9,4 +9,5 @@ router.get("/", getPosts);
 router.post("/post",requireSignin, createPostValidator, createPost);
 router.param("userId", userById)
 
+
 module.exports = router;
