@@ -25,7 +25,7 @@ exports.signin = (req,res) =>{
                 error : "User with that username doesn't exist please sign in"
             })
         }
-        // If user is found make sure the email and the password match
+        // If user is found make sure the username and the password match
         // create authenticate method in model and use here
         if(!user.authenticate(password)){
             return res.status(401).json({
