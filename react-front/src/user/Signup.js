@@ -1,5 +1,5 @@
 import React from "react";
-
+import { signup } from "../auth/index";
 class Signup extends React.Component {
   constructor() {
     super();
@@ -9,13 +9,13 @@ class Signup extends React.Component {
       email: "",
       password: "",
       error: "",
-      open : false,
+      open: false,
     };
   }
-  
+
   handleChange = (name) => (event) => {
-    this.setState({ error: ""});
-    this.setState({ open : false });
+    this.setState({ error: "" });
+    this.setState({ open: false });
     this.setState({ [name]: event.target.value });
   };
   clickSubmit = (event) => {
@@ -29,7 +29,7 @@ class Signup extends React.Component {
     };
     //   console.log(user);
     // Sending data to backend using fetch
-    this.signup(user).then((data) => {
+    signup(user).then((data) => {
       if (data.error) {
         this.setState({ error: data.error });
       } else {
@@ -39,68 +39,55 @@ class Signup extends React.Component {
           username: "",
           email: "",
           password: "",
-          open : true,
+          open: true,
         });
       }
     });
   };
-  signup = (user) => {
-    return fetch("http://localhost:8080/signup", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(user),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .catch((err) => console.log(err));
-  };
-  signupForm = (name, username, email, password)=>(
-        <form>
-          <div className="form-group">
-            <label className="text-muted">Name</label>
-            <input
-              onChange={this.handleChange("name")}
-              type="text"
-              className="form-control"
-              value={name}
-            />
-          </div>
-          <div className="form-group">
-            <label className="text-muted">Username</label>
-            <input
-              onChange={this.handleChange("username")}
-              type="text"
-              className="form-control"
-              value={username}
-            />
-          </div>
-          <div className="form-group">
-            <label className="text-muted">Email</label>
-            <input
-              onChange={this.handleChange("email")}
-              type="email"
-              className="form-control"
-              value={email}
-            />
-          </div>
-          <div className="form-group">
-            <label className="text-muted">Password</label>
-            <input
-              onChange={this.handleChange("password")}
-              type="password"
-              className="form-control"
-              value={password}
-            />
-          </div>
-        </form>
-  )
+
+  signupForm = (name, username, email, password) => (
+    <form>
+      <div className="form-group">
+        <label className="text-muted">Name</label>
+        <input
+          onChange={this.handleChange("name")}
+          type="text"
+          className="form-control"
+          value={name}
+        />
+      </div>
+      <div className="form-group">
+        <label className="text-muted">Username</label>
+        <input
+          onChange={this.handleChange("username")}
+          type="text"
+          className="form-control"
+          value={username}
+        />
+      </div>
+      <div className="form-group">
+        <label className="text-muted">Email</label>
+        <input
+          onChange={this.handleChange("email")}
+          type="email"
+          className="form-control"
+          value={email}
+        />
+      </div>
+      <div className="form-group">
+        <label className="text-muted">Password</label>
+        <input
+          onChange={this.handleChange("password")}
+          type="password"
+          className="form-control"
+          value={password}
+        />
+      </div>
+    </form>
+  );
 
   render() {
-    const { name, username, email, password, error,open } = this.state;
+    const { name, username, email, password, error, open } = this.state;
     return (
       <div className="container">
         <h2 className="mt-5 mb-5">Signup</h2>
@@ -114,7 +101,7 @@ class Signup extends React.Component {
           className="alert alert-info"
           style={{ display: open ? "" : "none" }}
         >
-            New account is successfully created. Please sign in.
+          New account is successfully created. Please sign in.
         </div>
         {this.signupForm(name, username, email, password)}
         <button

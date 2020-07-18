@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-
+import { signin, authenticate } from "../auth/index";
 class Signin extends React.Component {
   constructor() {
     super();
@@ -17,12 +17,7 @@ class Signin extends React.Component {
     this.setState({ error: "" });
     this.setState({ [name]: event.target.value });
   };
-  authenticate(jwt, next) {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("jwt", JSON.stringify(jwt));
-    }
-    next(); // Execute the callback
-  }
+
   clickSubmit = (event) => {
     event.preventDefault();
     this.setState({ loading: true });
@@ -33,31 +28,18 @@ class Signin extends React.Component {
     };
     //   console.log(user);
     // Sending data to backend using fetch
-    this.signin(user).then((data) => {
+    signin(user).then((data) => {
       if (data.error) {
         this.setState({ error: data.error, loading: false });
       } else {
         /*We need to authenticate the user and we need to redirect the user */
-        this.authenticate(data, () => {
+        authenticate(data, () => {
           this.setState({ redirectToReferer: true, loading: false });
         });
       }
     });
   };
-  signin = (user) => {
-    return fetch("http://localhost:8080/signin", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify(user),
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .catch((err) => console.log(err));
-  };
+
   signinForm = (username, password) => (
     <form>
       <div className="form-group">
